@@ -1,17 +1,25 @@
 import { use } from "react";
 import "./App.css";
 import { searchByName } from "./utils/dataFetching";
+import type { Drink } from "./types/drinkType";
+
+import { DrinkCard } from "./components/drinkCard";
 
 // Create the promise outside the component to avoid recreating it on every render
 const margaritaPromise = searchByName("margarita");
 
 function App() {
-  
-  const drink = use(margaritaPromise)?.drinks?.[0];
+  const data = use(margaritaPromise);
+  const drinks = data?.drinks?.slice(0, 5);
   
   return (
     <div className="App">
-        <p>{drink?.strDrink}</p>
+      {
+        drinks?.map((drink: Drink) => {
+           return <DrinkCard drink={drink}/>
+
+        })
+      }
     </div>
   );
 }
